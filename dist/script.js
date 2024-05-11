@@ -115,8 +115,8 @@ window.addEventListener('DOMContentLoaded', () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const modals = () => {
-  function bindModal(triggerSelector, modalSelector, closeSelector, closeCLickOverlay = true) {
-    // 'closeCLickOverlay' для контроля закрытия мод окна на подложку(какое будет а какое нет)
+  function bindModal(triggerSelector, modalSelector, closeSelector, destroy = true) {
+    //destroy для удаления элемента с страницы при нажатии на тригер (удаление подарка на странице)
     const trigger = document.querySelectorAll(triggerSelector),
       // можно повесить на несколько селекторов одни и те же функции 
       modal = document.querySelector(modalSelector),
@@ -129,6 +129,9 @@ const modals = () => {
       item.addEventListener('click', e => {
         if (e.target) {
           e.preventDefault();
+        }
+        if (destroy) {
+          item.remove();
         }
         windows.forEach(item => {
           // этот код закрывает все ненужные открытые окна
@@ -149,7 +152,7 @@ const modals = () => {
       // document.body.classList.remove('modal-open');
     });
     modal.addEventListener('click', e => {
-      if (e.target === modal && closeCLickOverlay) {
+      if (e.target === modal) {
         windows.forEach(item => {
           item.style.display = 'none';
         });
@@ -173,6 +176,8 @@ const modals = () => {
       if (!display) {
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = 'hidden';
+        scroll = calcScroll(); // сюда помещаем этот код из-за замыкания. 
+        document.body.style.marginRight = `${scroll}px`;
       }
     }, time);
   }
@@ -189,6 +194,7 @@ const modals = () => {
   }
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
 
   showModalByTime('.popup-consultation', 6000);
 };

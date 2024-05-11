@@ -1,5 +1,7 @@
 const modals = () => {
 
+  let btnPressed = false; //контролируем были ли нажаты кнопки на странице
+
   function bindModal(triggerSelector, modalSelector, closeSelector, destroy = true)  { //destroy для удаления элемента с страницы при нажатии на тригер (удаление подарка на странице)
     const trigger = document.querySelectorAll(triggerSelector), // можно повесить на несколько селекторов одни и те же функции 
           modal = document.querySelector(modalSelector),
@@ -12,6 +14,8 @@ const modals = () => {
         if (e.target) {
             e.preventDefault();
         }
+
+        btnPressed = true;
 
         if  (destroy) {
           item.remove();
@@ -91,11 +95,20 @@ const modals = () => {
     return scrollWidth;
   }
 
+  function openByScroll(selector) {
+    window.addEventListener('scroll', ()  =>  {
+      if  (!btnPressed && (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight))  { // это условие проверяет полный прокрут страницы 
+        document.querySelector(selector).click(); // .click() это выполняется метод клика програмно
+      }
+    });
+  }
+
+ 
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
   bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
-
-  showModalByTime('.popup-consultation', 6000);
+  openByScroll('.fixed-gift');
+  // showModalByTime('.popup-consultation', 6000);
 
 };
 

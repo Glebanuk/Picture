@@ -1,5 +1,6 @@
 const sliders = (slides, direction, prev, next) => {
   let slideIndex  = 1; //отображение позици слайда по умолчанию
+  let paused = false;// переменная для отключения автоматического перелистования слайдов в горизонтальном слайдере 
   const items = document.querySelectorAll(slides);
         
 
@@ -48,6 +49,29 @@ const sliders = (slides, direction, prev, next) => {
   } catch (e) {
     
   }
+
+  function activateAnimation()  { // функция для остановки перелистывания слайдера при наведении курсора
+    if (direction === 'vertical') { // работа над вертикальным слайдером
+       paused = setInterval(function() {
+        changeSlides(1);
+        items[slideIndex  - 1].classList.add('slideInDown');
+      }, 3000);
+    } else {
+       paused = setInterval(function() {
+        changeSlides(1);
+        items[slideIndex  - 1].classList.remove('slideInRight');
+        items[slideIndex  - 1].classList.add('slideInLeft');
+      }, 3000);
+    }
+  };
+  activateAnimation();
+
+  items[0].parentNode.addEventListener('mouseenter', () =>  { 
+    clearInterval(paused);
+  });
+  items[0].parentNode.addEventListener('mouseleave', () =>  {
+    activateAnimation();
+  });
 };
 
 export default sliders;

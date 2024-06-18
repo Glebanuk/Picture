@@ -103,7 +103,8 @@ window.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_0__["default"])();
-  Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.feedback-slider-item', '', '.main-prev-btn', '.main-next-btn');
+  Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.feedback-slider-item', 'horizontal', '.main-prev-btn', '.main-next-btn');
+  Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.main-slider-item', 'vertical');
 });
 
 /***/ }),
@@ -224,6 +225,7 @@ const modals = () => {
 __webpack_require__.r(__webpack_exports__);
 const sliders = (slides, direction, prev, next) => {
   let slideIndex = 1; //отображение позици слайда по умолчанию
+  let paused = false; // переменная для отключения автоматического перелистования слайдов в горизонтальном слайдере 
   const items = document.querySelectorAll(slides);
   function showSlides(n) {
     // отвечает за перемещение слайд индекса
@@ -265,6 +267,30 @@ const sliders = (slides, direction, prev, next) => {
       items[slideIndex - 1].classList.add('slideInLeft');
     });
   } catch (e) {}
+  function activateAnimation() {
+    // функция для остановки перелистывания слайдера при наведении курсора
+    if (direction === 'vertical') {
+      // работа над вертикальным слайдером
+      paused = setInterval(function () {
+        changeSlides(1);
+        items[slideIndex - 1].classList.add('slideInDown');
+      }, 3000);
+    } else {
+      paused = setInterval(function () {
+        changeSlides(1);
+        items[slideIndex - 1].classList.remove('slideInRight');
+        items[slideIndex - 1].classList.add('slideInLeft');
+      }, 3000);
+    }
+  }
+  ;
+  activateAnimation();
+  items[0].parentNode.addEventListener('mouseenter', () => {
+    clearInterval(paused);
+  });
+  items[0].parentNode.addEventListener('mouseleave', () => {
+    activateAnimation();
+  });
 };
 /* harmony default export */ __webpack_exports__["default"] = (sliders);
 

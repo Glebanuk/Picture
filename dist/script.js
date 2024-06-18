@@ -96,11 +96,14 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _modules_sliders__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders */ "./src/js/modules/sliders.js");
+
 
 window.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.feedback-slider-item', '', '.main-prev-btn', '.main-next-btn');
 });
 
 /***/ }),
@@ -117,7 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 const modals = () => {
   let btnPressed = false; //контролируем были ли нажаты кнопки на странице
 
-  function bindModal(triggerSelector, modalSelector, closeSelector, destroy = true) {
+  function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
     //destroy для удаления элемента с страницы при нажатии на тригер (удаление подарка на странице)
     const trigger = document.querySelectorAll(triggerSelector),
       // можно повесить на несколько селекторов одни и те же функции 
@@ -139,6 +142,7 @@ const modals = () => {
         windows.forEach(item => {
           // этот код закрывает все ненужные открытые окна
           item.style.display = 'none';
+          item.classList.add('animated', 'fadeIn');
         });
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -151,8 +155,6 @@ const modals = () => {
       modal.style.display = 'none';
       document.body.style.overflow = '';
       document.body.style.marginRight = `0px`;
-
-      // document.body.classList.remove('modal-open');
     });
     modal.addEventListener('click', e => {
       if (e.target === modal) {
@@ -162,8 +164,6 @@ const modals = () => {
         modal.style.display = 'none';
         document.body.style.overflow = '';
         document.body.style.marginRight = `0px`;
-
-        // document.body.classList.remove('modal-open');
       }
     });
   }
@@ -204,12 +204,69 @@ const modals = () => {
     });
   }
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
-  bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
-  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
+  bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
   openByScroll('.fixed-gift');
   // showModalByTime('.popup-consultation', 6000);
 };
 /* harmony default export */ __webpack_exports__["default"] = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/sliders.js":
+/*!***********************************!*\
+  !*** ./src/js/modules/sliders.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const sliders = (slides, direction, prev, next) => {
+  let slideIndex = 1; //отображение позици слайда по умолчанию
+  const items = document.querySelectorAll(slides);
+  function showSlides(n) {
+    // отвечает за перемещение слайд индекса
+    if (n > items.length) {
+      // если индекс больше чем кол-во слайдов то перемещаемся в первую позицию
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      // перемещаемся на последний слайдер так как нет отрицательных значений слайдов
+      slideIndex = items.length;
+    }
+    items.forEach(item => {
+      // скрытие всех слайдов чтоб отобразить тот который нужен в данный момент
+      item.classList.add('animated');
+      item.style.display = 'none';
+    });
+    items[slideIndex - 1].style.display = 'block'; // отображаем нужный слайд
+  }
+  showSlides(slideIndex);
+  function changeSlides(n) {
+    //функционал слайдера, в которую передаем или 1 или -1
+    showSlides(slideIndex += n);
+  }
+  try {
+    // если селекторы кнопок не были переданы то ошибка не сломает другой код
+    const prevBtn = document.querySelector(prev),
+      nextBtn = document.querySelector(next);
+
+    // но если кнопки есть то (см. ниже)
+
+    prevBtn.addEventListener('click', () => {
+      changeSlides(-1);
+      items[slideIndex - 1].classList.remove('slideInLeft'); // анимирование слайдов
+      items[slideIndex - 1].classList.add('slideInRight');
+    });
+    nextBtn.addEventListener('click', () => {
+      changeSlides(1);
+      items[slideIndex - 1].classList.remove('slideInRight');
+      items[slideIndex - 1].classList.add('slideInLeft');
+    });
+  } catch (e) {}
+};
+/* harmony default export */ __webpack_exports__["default"] = (sliders);
 
 /***/ })
 

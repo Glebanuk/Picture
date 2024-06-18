@@ -2,7 +2,7 @@ const modals = () => {
 
   let btnPressed = false; //контролируем были ли нажаты кнопки на странице
 
-  function bindModal(triggerSelector, modalSelector, closeSelector, destroy = true)  { //destroy для удаления элемента с страницы при нажатии на тригер (удаление подарка на странице)
+  function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false)  { //destroy для удаления элемента с страницы при нажатии на тригер (удаление подарка на странице)
     const trigger = document.querySelectorAll(triggerSelector), // можно повесить на несколько селекторов одни и те же функции 
           modal = document.querySelector(modalSelector),
           close = document.querySelector(closeSelector),
@@ -23,6 +23,7 @@ const modals = () => {
 
         windows.forEach(item  =>  { // этот код закрывает все ненужные открытые окна
           item.style.display = 'none';
+          item.classList.add('animated', 'fadeIn');
         });
 
         modal.style.display = 'block';
@@ -38,8 +39,7 @@ const modals = () => {
       modal.style.display = 'none';
       document.body.style.overflow  = '';
       document.body.style.marginRight = `0px`;
-
-      // document.body.classList.remove('modal-open');
+      
     });
 
 
@@ -54,7 +54,7 @@ const modals = () => {
         document.body.style.overflow  = '';
         document.body.style.marginRight = `0px`;
 
-        // document.body.classList.remove('modal-open');
+        
       }
     })
   }
@@ -105,8 +105,8 @@ const modals = () => {
 
  
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
-  bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
-  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close'); // вместо переменных передаем сразу селекторы. И функция становится универсальной для открытия окон при клике на другие тригеры.
+  bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); 
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true); 
   openByScroll('.fixed-gift');
   // showModalByTime('.popup-consultation', 6000);
 

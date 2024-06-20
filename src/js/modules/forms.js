@@ -2,7 +2,8 @@
 
 const forms = ()  =>  {
   const form = document.querySelectorAll('form'),
-       inputs = document.querySelectorAll('input');
+       inputs = document.querySelectorAll('input'),
+       upload = document.querySelectorAll('[name="upload"]');
       //  phoneInputs = document.querySelectorAll('input[name="user_phone"]');// эта переменная для функционала в котором полтзователь может вводитТОЛЬКО цифры
 
       //  checkNumInputs(phoneInputs);
@@ -35,7 +36,23 @@ const forms = ()  =>  {
           inputs.forEach(item =>  {
             item.value = '';
           });
+          upload.forEach(item =>{
+            item.previousElementSibling.textContent = 'Файл не выбран';// после отправки формы с изображением, возвращает надпись которая была изначально
+          })
         };
+
+        upload.forEach(item =>  { // этот блок для отображения в верстке названия загруженого файла в инпут 
+          item.addEventListener('input', () =>  {
+            console.log(item.files[0]);
+            let dots;
+            let arr = item.files[0].name.split('.');
+            arr[0].length > 5 ? dots = '...' : dots = '.'; // добавляет точки к названию файла еслиу него длинное название
+            const name = arr[0].substring(0, 6) + dots + arr[1];
+          item.previousElementSibling.textContent = name;
+          
+          })
+        });
+
 
        form.forEach(item  =>  {
           item.addEventListener('submit', (e) => { //событие submit есть только если в разметке используется тэг form
@@ -63,7 +80,7 @@ const forms = ()  =>  {
             const formData  = new FormData(item); // этот объект найдет все данные полей ввода и соборет их в специальную структуру (объект)
 
             let api;//нужна для формирования динамического пути куда будут отправляться данные
-            item.closest('.popup-design') ? api = path.designer : api = path.question; // если мод окно содержит картинку то отправляем на один сервер если нет то на другой. 
+            item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question; // если мод окно содержит картинку то отправляем на один сервер если нет то на другой. 
             console.log(api);
 
             postData(api, formData)
@@ -80,7 +97,10 @@ const forms = ()  =>  {
                   clearInputs();
                   setTimeout(() =>  {
                     statusMessage.remove();
-                  }, 7000);
+                    item.style.display = 'block';
+                    item.classList.remove('fadeOutUp');
+                    item.classList.add('fadeInUp');
+                  }, 5000);
                 })
 
 

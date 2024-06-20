@@ -49,7 +49,7 @@ const forms = ()  =>  {
             arr[0].length > 5 ? dots = '...' : dots = '.'; // добавляет точки к названию файла еслиу него длинное название
             const name = arr[0].substring(0, 6) + dots + arr[1];
           item.previousElementSibling.textContent = name;
-          
+
           })
         });
 
@@ -63,7 +63,7 @@ const forms = ()  =>  {
             item.parentNode.appendChild(statusMessage); //используем родительский блок для помещения в него изображения(о статусе отправки) вместо формы 
 
             item.classList.add('animated', 'fadeOutUp'); // этот код скрывает форму (но она останется на странице просто юудет прозрачной) 
-            
+
             setTimeout(() => {// этот код удаляет форму чтоб не занимала место и не мешала блоку с картинкой вместо нее
               item.style.display = 'none';
             }, 400);

@@ -13,6 +13,7 @@ const modals = () => {
       item.addEventListener('click', (e) =>  {
         if (e.target) {
             e.preventDefault();
+            
         }
 
         btnPressed = true;

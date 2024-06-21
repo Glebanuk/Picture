@@ -82,6 +82,7 @@ const forms = ()  =>  {
             let api;//нужна для формирования динамического пути куда будут отправляться данные
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question; // если мод окно содержит картинку то отправляем на один сервер если нет то на другой. 
             console.log(api);
+            
 
             postData(api, formData)
               .then(res =>  {//если отправка успешна то выпонится then, если нет то catch

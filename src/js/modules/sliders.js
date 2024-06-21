@@ -72,6 +72,7 @@ const sliders = (slides, direction, prev, next) => {
   items[0].parentNode.addEventListener('mouseleave', () =>  {
     activateAnimation();
   });
+  
 };
 
 export default sliders;

@@ -46,6 +46,8 @@ const mask = (selector) =>  {
         input.addEventListener('blur', createMask);
       })
 
+
+
 };
 
 export default mask

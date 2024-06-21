@@ -7,7 +7,13 @@ const checkTextInputs = (selector) => {
         e.preventDefault();
       }
     });
+
+    input.addEventListener('input', function() {
+      this.value = this.value.replace(/[^а-яё 0-9]/ig, '');
+    });
   });
+
+  
   
 };
 

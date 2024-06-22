@@ -1,4 +1,4 @@
-// import checkNumInputs from "./checkNumInputs";
+import {postData} from "../services/request";
 
 const forms = ()  =>  {
   const form = document.querySelectorAll('form'),
@@ -22,15 +22,7 @@ const forms = ()  =>  {
         question: 'assets/question.php'
        }
 
-       const postData = async (url, data) =>  { // async/await добавляются чтоб JS подождал ответ от сервера , т.к. fetch является ассинхронной операцией. Иначе переменная result будет undefind
-
-          let result = await fetch(url, {
-            method:'POST',
-            body: data 
-          });
-
-          return await result.text(); // эта строка тоже выполняется асинхронно пожтому нужен await
-        }
+     
 
         const clearInputs = ()  =>  {
           inputs.forEach(item =>  {

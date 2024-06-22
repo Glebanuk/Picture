@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', ()  =>  {
   mask('[name="phone"');
   checkTextInputs('[name="name"]');
   checkTextInputs('[name="message"]');
-  showMoreStyles('.button-styles', '.styles-2');
-  console.log('asd');
+  showMoreStyles('.button-styles', '#styles .row');
+  console.log('фффффффффффф');
  
 });
+//ДЛЯ ЗАПУСКА JSON-SERVER НУЖНО В ТЕРМИНАЛЕ ПРОПИСАТЬ ПУТЬ К ФАЙЛУ 'json-server src/assets/db.json' ПРЕДВАРИТЕЛЬНО УСТАНОВИВ САМ СЕРВЕР

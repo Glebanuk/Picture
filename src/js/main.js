@@ -6,6 +6,7 @@ import checkTextInputs from "./modules/checkTextInputs";
 import showMoreStyles from "./modules/showMoreStyles";
 import calc from "./modules/calc";
 import filter from "./modules/filter";
+import pictureSize from "./modules/pictureSize";
 
 window.addEventListener('DOMContentLoaded', ()  =>  {
   'use strict'
@@ -14,12 +15,13 @@ window.addEventListener('DOMContentLoaded', ()  =>  {
   sliders('.feedback-slider-item', 'horizontal', '.main-prev-btn', '.main-next-btn');
   sliders('.main-slider-item', 'vertical');
   forms();
-  mask('[name="phone"');
+  mask('[name="phone"]');
   checkTextInputs('[name="name"]');
   checkTextInputs('[name="message"]');
   showMoreStyles('.button-styles', '#styles .row');
   calc('#size', '#material', '#options', '.promocode', '.calc-price')
   filter();
+  pictureSize('.sizes-block');
   console.log('aaaa');
 });
 //ДЛЯ ЗАПУСКА JSON-SERVER НУЖНО В ТЕРМИНАЛЕ ПРОПИСАТЬ ПУТЬ К ФАЙЛУ 'json-server src/assets/db.json' ПРЕДВАРИТЕЛЬНО УСТАНОВИВ САМ СЕРВЕР
